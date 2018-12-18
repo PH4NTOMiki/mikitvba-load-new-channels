@@ -18,7 +18,7 @@ request.get('https://webtvstream.bhtelecom.ba/client/channels', (error, response
 		}
 		
 		// uncomment next line to console.log the result
-		//console.log(JSON.stringify({channels:channels,title:title,timeshift:timeshift,type:type}));
+		//console.log("result:\n"+JSON.stringify({channels:channels,title:title,timeshift:timeshift,type:type}));
 		fs.writeFile('JSON.json', JSON.stringify({channels:channels,title:title,
 		timeshift:timeshift,type:type}), (err, data)=>{
 		if(err)console.log("Unsuccessfully tried to write to JSON.json file, error: ", err);
