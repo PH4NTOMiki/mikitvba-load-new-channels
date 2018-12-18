@@ -18,13 +18,13 @@ request.get('https://webtvstream.bhtelecom.ba/client/channels', (error, response
 		}
 		
 		fs.writeFile('JSON.json', JSON.stringify({channels:channels,title:title,timeshift:timeshift,type:type}), (err, data)=>{
-		if(err)console.log("Unsuccessfully tried to write to a file, error: ", err);
+		if(err)console.log("Unsuccessfully tried to write to JSON.json file, error: ", err);
 		else console.log("Successfully loaded both JSONs and wrote to JSON.json file");
 		});
 		fs.writeFile('variables.js', 'var channels='+JSON.stringify(channels)+',title='+JSON.stringify(title)+
 		',timeshift='+JSON.stringify(timeshift)+',type='+JSON.stringify(type),
 		(err, data)=>{
-		if(err)console.log("Unsuccessfully tried to write to a file, error: ", err);
+		if(err)console.log("Unsuccessfully tried to write to variables.js file, error: ", err);
 		else console.log("Successfully loaded both JSONs and wrote to variables.js file");
 		});
 	});
