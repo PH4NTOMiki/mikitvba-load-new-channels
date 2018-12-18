@@ -2,10 +2,10 @@ var request = require('request'),fs = require('fs'),channels=[],title={},timeshi
 
 request.get('https://webtvstream.bhtelecom.ba/client/channels', (error, response, body) => {
 	let feed=JSON.parse(body)["feed"],radioStart=feed.length;
-	console.log("Successfully loaded tv JSON, radioStart: ", radioStart);
+	console.log("Successfully loaded tv JSON, tv length and radioStart: ", radioStart);
 	request.get('https://webtvstream.bhtelecom.ba/client/channels_cat_11', (error, response, body) => {
 		feed=feed.concat(JSON.parse(body)["feed"]);
-		console.log("Successfully loaded radio JSON");
+		console.log("Successfully loaded radio JSON, radio length: ",(feed.length-radioStart),", full length: ",feed.length);
 		for(let i=0,j=feed.length;i<j;i++){
 		let c=feed[i],currch=c.ch;
 		channels.push(currch);
@@ -17,15 +17,15 @@ request.get('https://webtvstream.bhtelecom.ba/client/channels', (error, response
 		}
 		}
 		
-		fs.writeFile('JSON.json', JSON.stringify({channels:channels,title:title,timeshift:timeshift,type:type}), (err, data)=>{
+		fs.writeFile('JSON.json', JSON.stringify({channels:channels,title:title,
+		timeshift:timeshift,type:type}), (err, data)=>{
 		if(err)console.log("Unsuccessfully tried to write to JSON.json file, error: ", err);
-		else console.log("Successfully loaded both JSONs and wrote to JSON.json file");
+		else console.log("Successfully written JSON.json file");
 		});
 		fs.writeFile('variables.js', 'var channels='+JSON.stringify(channels)+',title='+JSON.stringify(title)+
-		',timeshift='+JSON.stringify(timeshift)+',type='+JSON.stringify(type),
-		(err, data)=>{
-		if(err)console.log("Unsuccessfully tried to write to variables.js file, error: ", err);
-		else console.log("Successfully loaded both JSONs and wrote to variables.js file");
+		',timeshift='+JSON.stringify(timeshift)+',type='+JSON.stringify(type), (err, data)=>{
+		if(err)console.log("Unsuccessfully tried to write variables.js file, error: ", err);
+		else console.log("Successfully written variables.js file");
 		});
 	});
 });
