@@ -186,14 +186,12 @@ var timeLeft=(timeWhenThumbsUpdated+120000)-(+new Date());if(timeLeft<1){console
 updatethumbsint=setInterval(updatethumbs,120000);} else {console.log('!timeLeft<1 , timeLeft: ',timeLeft,'setTimeout');visibilityTimeout=setTimeout(function(){updatethumbs();
 updatethumbsint=setInterval(updatethumbs,120000);},timeLeft);}}}
 if(typeof document.addEventListener!=="undefined" && typeof document[hidden]!=="undefined"){document.addEventListener(visibilityChange, handleVisibilityChange, false);}
-function updatethumbs(){console.log('updatethumbs() called, time since last thumbs update: ',(+new Date())-timeWhenThumbsUpdated);if(dq("#chtable0")!=null && islistshown && !document[hidden]){
-timeWhenThumbsUpdated=+new Date();
-console.log("called updatethumbs, thumbs were updated");var thbarr=dqa(".imgdiv:not(.radimgdiv)"),
-len=thbarr.length;for(var i=0;i<len;i++){thbarr[i].querySelector(".chthumbs").src=
+function updatethumbs(){console.log('updatethumbs() called, time since last thumbs update: ',(+new Date())-timeWhenThumbsUpdated);if(dq("#chtable0")&&islistshown&&!document[hidden]){timeWhenThumbsUpdated=+new Date();
+console.log("called updatethumbs, thumbs were updated");var thbarr=dqa(".imgdiv:not(.radimgdiv)");
+for(var i=0,len=thbarr.length;i<len;i++){thbarr[i].querySelector(".chthumbs").src=
 'https://webtv.bhtelecom.ba/thumbs/'+channels[i]+'.jpg?ts='+timeWhenThumbsUpdated;}
-} else {if(dq("#chtable0") == null){
-        console.log("called updatethumbs, no el. with id chtable0");
-    } else {console.log("called updatethumbs, el. with id chtable0 is hidden");}}}
+} else {if(!dq("#chtable0")){console.log("called updatethumbs, no el. with id chtable0");} else {
+console.log("called updatethumbs, !islistshown");}}}
 function updateradiowidth(){
 if (dq("#chtable0") != null && islistshown) {
 var divwidth=jq("#chtable0").css("width"),divheight=divwidth.slice(0,-2) / 1.777825 + "px";
