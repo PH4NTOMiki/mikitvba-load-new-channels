@@ -1,14 +1,14 @@
 <head>
 <meta charset="UTF-8"><script>var loadedhash=location.hash,loadingtimestart=+new Date(),currversion=80,urlHref='';</script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><script>!window.jQuery&&document.write('<scr'+'ipt src="/jquery3-2-1.min.js"><'+'/scr'+'ipt>');var jq=jQuery.noConflict(),dq=document.querySelector.bind(document),dqa=document.querySelectorAll.bind(document);jq.get("/webtvversion.txt?time="+loadingtimestart,function(data){data=JSON.parse(data);if(data.latestversion===currversion){urlHref=window.location.href;if(location.href.indexOf("?")!==-1||location.href.indexOf("i=")!==-1){window.history.replaceState({},document.title,"/webtv"+loadedhash);}} else {location.reload(true);}});
-/*if((location.href.indexOf(".php?") == -1) || (location.href.indexOf("?") != -1 && location.href.indexOf("i=") != -1)){
-window.location.replace(location.protocol+"//"+location.hostname+location.pathname+"?#");} else if (location.hash === ''){
-location.hash="#";}*/
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><script>!window.jQuery&&document.write('<scr'+'ipt src="/jquery3-2-1.min.js"><'+'/scr'+'ipt>');var jq=jQuery.noConflict(),dq=document.querySelector.bind(document),dqa=document.querySelectorAll.bind(document);jq.get('/webtvversion?ts='+loadingtimestart,function(data){data=JSON.parse(data);if(data.latestversion===currversion){urlHref=window.location.href;if(location.href.indexOf('?')!==-1||location.href.indexOf('i=')!==-1){window.history.replaceState({},document.title,'/webtv'+loadedhash);}} else {location.reload(true);}});
+/*if((location.href.indexOf('.php?') == -1) || (location.href.indexOf('?') != -1 && location.href.indexOf('i=') != -1)){
+window.location.replace(location.protocol+'//'+location.hostname+location.pathname+'?#');} else if (location.hash === ''){
+location.hash='#';}*/
 </script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>.padding123,.jbuttons{padding-top:16px!important;padding-left:10.5%!important;padding-right:10.5%!important}
 .hqbtn{padding-top:2px!important;padding-left:8px!important;padding-right:7px!important;padding-bottom:2px!important}
 .playbtn{padding-top:0px!important;padding-left:8px!important;padding-right:6px!important;padding-bottom:1px!important}
-.search{padding:8px;display:block;border:none;border-bottom:1px solid #ccc;border-right:1px solid #ccc;}
+#chsearch{display:inline-block;position:relative;top:3px;left:10px;height:38px;border:none;padding:8px;/*border-bottom:1px solid #ccc;border-right:1px solid #ccc;*/}#chfilterparent{display:inline-block;top:1px;left:19px;}
 @media (min-width:601px){.containerlarge{padding:0.01em 16px}}
 @media (max-width:600px){.smallcenter{display:block; margin:0 auto; text-align:center;}}
 .slider{-webkit-appearance:none;height:38px;background:silver;outline:none;vertical-align:-15px;}
@@ -41,8 +41,8 @@ table.epg tr{padding-bottom:15px;  border:1px solid #1f1f1f; color:#fff;}
 </head>
 <body>
 <div style="display:block;margin:0 auto;position:fixed;z-index:600;width:100%;background-color:#898e8c;height:44px;" id="searchcatdiv" class="searchcatdiv w3-mobile">
-<input type="text" id="search" placeholder="Upisite naziv kanala" onkeyup="search()" class="search w3-white" style="display: inline-block;" value="">
-<div class="w3-dropdown-click filterdiv selectcat" style="display: inline-block;">
+<input type="text" id="chsearch" placeholder="Upisite naziv kanala" onkeyup="search()" class="w3-white" value="">
+<div id="chfilterparent" class="w3-dropdown-click filterdiv selectcat">
   <button onclick="jq('#chfiltercontent').toggleClass('w3-show')" class="w3-button w3-teal selectcat">Kategorije</button>
   <div id="chfiltercontent" class="w3-dropdown-content w3-bar-block w3-border filtercontent selectcat" style="left: -24%;">
     <span onclick="filtercat(0)" class="w3-bar-item w3-button selectcat spancat w3-green w3-hover-green">Svi kanali</span>
@@ -124,14 +124,14 @@ function epghash(){var temphash=location.hash;if(temphash!==state && temphash!==
 	loadChannel(temphash);}
 }
 
-function loadImages(){console.log('loadImages() called');var thbarr=dqa(".imgdiv:not(.radimgdiv)"),len=thbarr.length;timeWhenThumbsUpdated=+new Date();for(var i=0;i<len;i++){
-thbarr[i].querySelector(".chthumbs").src='https://webtv.bhtelecom.ba/thumbs/'+channels[i]+'.jpg?ts='+timeWhenThumbsUpdated;}
-var tmparr=dqa(".radimgdiv");
-for(var i=0,leng=tmparr.length;i<leng;i++,len++){tmparr[i].querySelector(".chthumbs").src='https://webtv.bhtelecom.ba/hq_logo/'+channels[len]+'.png';}}
+function loadImages(){console.log('loadImages() called');var thbarr=dqa('.imgdiv:not(.radimgdiv)'),len=thbarr.length;timeWhenThumbsUpdated=+new Date();for(var i=0;i<len;i++){
+thbarr[i].querySelector('.chthumbs').src='https://webtv.bhtelecom.ba/thumbs/'+channels[i]+'.jpg?ts='+timeWhenThumbsUpdated;}
+var tmparr=dqa('.radimgdiv');
+for(var i=0,leng=tmparr.length;i<leng;i++,len++){tmparr[i].querySelector('.chthumbs').src='https://webtv.bhtelecom.ba/hq_logo/'+channels[len]+'.png';}}
 
 jq(window).on('hashchange', epghash);
-jq(window).on('load',function(event){if(islistshown){loadImages();} else {setTimeout(function(){console.log('radio images');var startElem=dqa(".imgdiv:not(.radimgdiv)").length,radioElements=dqa(".radimgdiv");
-for(var i=0;i<radioElements.length;i++,startElem++){radioElements[i].querySelector(".chthumbs").src=
+jq(window).on('load',function(event){if(islistshown){loadImages();} else {setTimeout(function(){console.log('radio images');var startElem=dqa('.imgdiv:not(.radimgdiv)').length,radioElements=dqa('.radimgdiv');
+for(var i=0;i<radioElements.length;i++,startElem++){radioElements[i].querySelector('.chthumbs').src=
 'https://webtv.bhtelecom.ba/hq_logo/'+channels[startElem]+'.png';}},4000);}console.log("Loading took: "+(+new Date()-loadingtimestart)+" ms");});
 function urlParam(name,locc){var results=new RegExp('[\?&]'+name+'=([^&#]*)').exec(locc || window.location.href);if(results==null){return null;} else {return results[1] || 0;}}
 function hlsParse(ch){var args=arguments,base='https://'+cdntag+'.bhtelecom.ba';currCH.ch=ch;currCH.hq=currCH.sq=currCH.auto=base+'/'+ch+'.m3u8';
@@ -186,37 +186,37 @@ var timeLeft=(timeWhenThumbsUpdated+120000)-(+new Date());if(timeLeft<1){console
 updatethumbsint=setInterval(updatethumbs,120000);} else {console.log('!timeLeft<1 , timeLeft: ',timeLeft,'setTimeout');visibilityTimeout=setTimeout(function(){updatethumbs();
 updatethumbsint=setInterval(updatethumbs,120000);},timeLeft);}}}
 if(typeof document.addEventListener!=="undefined" && typeof document[hidden]!=="undefined"){document.addEventListener(visibilityChange, handleVisibilityChange, false);}
-function updatethumbs(){console.log('updatethumbs() called, time since last thumbs update: ',(+new Date())-timeWhenThumbsUpdated);if(dq("#chtable0")&&islistshown&&!document[hidden]){timeWhenThumbsUpdated=+new Date();
-console.log("called updatethumbs, thumbs were updated");var thbarr=dqa(".imgdiv:not(.radimgdiv)");
-for(var i=0,len=thbarr.length;i<len;i++){thbarr[i].querySelector(".chthumbs").src=
+function updatethumbs(){console.log('updatethumbs() called, time since last thumbs update: ',(+new Date())-timeWhenThumbsUpdated);if(dq('#chtable0')&&islistshown&&!document[hidden]){timeWhenThumbsUpdated=+new Date();
+console.log("called updatethumbs, thumbs were updated");var thbarr=dqa('.imgdiv:not(.radimgdiv)');
+for(var i=0,len=thbarr.length;i<len;i++){thbarr[i].querySelector('.chthumbs').src=
 'https://webtv.bhtelecom.ba/thumbs/'+channels[i]+'.jpg?ts='+timeWhenThumbsUpdated;}
-} else {if(!dq("#chtable0")){console.log("called updatethumbs, no el. with id chtable0");} else {
+} else {if(!dq('#chtable0')){console.log("called updatethumbs, !dq(#chtable0)");} else {
 console.log("called updatethumbs, !islistshown");}}}
 function updateradiowidth(){
-if (dq("#chtable0") != null && islistshown) {
-var divwidth=jq("#chtable0").css("width"),divheight=divwidth.slice(0,-2) / 1.777825 + "px";
+if (dq('#chtable0')&&islistshown){
+var divwidth=jq('#chtable0').css("width"),divheight=divwidth.slice(0,-2) / 1.777825 + "px";
     console.log("called updateradiowidth, radio images width updated");
-	dq("#mystyle").innerHTML='.radimgdiv{width:'+divwidth+';height:'+divheight+';}';
-} else {if(dq("#chtable0") == null){
-        console.log("called updateradiowidth, no el. with id chtable0");
-    } else {console.log("called updateradiowidth, el. with id chtable0 is hidden");}
-}}
+	dq('#mystyle').innerHTML='.radimgdiv{width:'+divwidth+';height:'+divheight+';}';
+} else if(!dq('#chtable0')){
+        console.log("called updateradiowidth, !dq(#chtable0)");
+    } else {console.log("called updateradiowidth, !islistshown");}
+}
 updateradiowidth();var updatethumbsint=setInterval(updatethumbs,120000);
 
-function jumptoepg(){/*window.scrollTo(0, 0);window.location='#nowepg';*/ jq('html,body').scrollTop(0);
-jq('html,body').animate({scrollTop: jq("#nowepg").offset().top}, 500);}
+function jumptoepg(){/*window.scrollTo(0, 0);window.location='#nowepg';*/jq('html,body').scrollTop(0);
+jq('html,body').animate({scrollTop: jq('#nowepg').offset().top}, 500);}
 function watchInstant(ch,hq){
 	if(hq==undefined){hq=1}
 	lastch=ch;state='#w_'+ch;window.location=state;
 	islistshown=false;
-	jq("#searchcatdiv").hide();
-	jq("#chlistcontainer").hide();
-	jq("#buttons3").hide();
-	jq("#epgdiv").hide();
-	jq("#vidcont").show();
+	jq('#searchcatdiv').hide();
+	jq('#chlistcontainer').hide();
+	jq('#buttons3').hide();
+	jq('#epgdiv').hide();
+	jq('#vidcont').show();
 	dq('#kanalIMG1').src='https://webtv.bhtelecom.ba/hq_logo/'+ch+'.png';
 	dq('#kanalIMG3').src='https://webtv.bhtelecom.ba/hq_logo/'+ch+'.png';
-	jq("#buttons1").show();
+	jq('#buttons1').show();
 	if(hq==1){hlsParse(ch,'hq');} else {hlsParse(ch,'auto');}
 }
 function epgparse(result, ch, timeshift){
@@ -229,7 +229,7 @@ function epgparse(result, ch, timeshift){
 	console.log(data);}
 	//var chSq=(type[ch]==3)?ch:('hls'+hlsnum+'/'+ch);var chHq=(type[ch]==3)?ch:('hls'+hlsnum+'/'+ch+'_1200');
 	var epglist=['<div class="abovetable" style="padding: 5px;"><table width="100%" cellpadding="0" cellspacing="0" class="epg">'];
-	if (!data){console.log("data == null, setting passedLive to false");} else {
+	if (!data){console.log("!data, using backup epg");} else {
 	console.log("data != null, going through data and making epg");
 	for (var i=0,dataLen=data.length;i<dataLen;i++){
 		if(data[i].now == 2){passedNow=true;} else {
@@ -261,11 +261,11 @@ function getEpg(ch, timeshift){
 	lastch=ch;
 	islistshown=false;
 	dq('#kanalIMG3').src='https://webtv.bhtelecom.ba/hq_logo/'+ch+'.png';
-	jq("#searchcatdiv").hide();
-	jq("#chlistcontainer").hide();
-	jq("#buttons3").show();
+	jq('#searchcatdiv').hide();
+	jq('#chlistcontainer').hide();
+	jq('#buttons3').show();
 	dq('#epgdiv').innerHTML='<div id="loading"><img id="loading-image" src="/loading.gif" alt="Loading..." /></div>';
-	jq("#epgdiv").show();/*var jurl='/tproxy?url=https%3A%2F%2Fwebtv.bhtelecom.ba%2Fepg%2F'+ch;*/
+	jq('#epgdiv').show();/*var jurl='/tproxy?url=https%3A%2F%2Fwebtv.bhtelecom.ba%2Fepg%2F'+ch;*/
 	var jurl='https://webtv.bhtelecom.ba/epg/'+ch;
 if (ch === "bhtpremier"){epgparse(null, ch, timeshift);return "ch===bhtpremier";}console.log("started getEpg; url: "+jurl);
 jq.getJSON(jurl, function(result2){console.log("success getJSON, sending result to epgparse");
@@ -300,22 +300,22 @@ function playts(url){
 
 function returnRemote(){
 	window.history.pushState({},document.title,"/webtv");;
-	jq("#buttons3").hide();
-	jq("#searchcatdiv").show();
-	jq("#epgdiv").hide();
+	jq('#buttons3').hide();
+	jq('#searchcatdiv').show();
+	jq('#epgdiv').hide();
 	islistshown=true;
 	updatethumbs();
-	jq("#chlistcontainer").show();
+	jq('#chlistcontainer').show();
 	updateradiowidth();}
 
 function watchCh(ch, quality){if(!quality)quality='auto';
 	lastch=ch;state='#w_'+ch;window.location=state;
 	lasthlsurl=currCH[quality];
-	jq("#buttons3").hide();
-	jq("#epgdiv").hide();
-	jq("#vidcont").show();
+	jq('#buttons3').hide();
+	jq('#epgdiv').hide();
+	jq('#vidcont').show();
 	dq('#kanalIMG1').src='https://webtv.bhtelecom.ba/hq_logo/'+ch+'.png';
-	jq("#buttons1").show();
+	jq('#buttons1').show();
 	playhls(lasthlsurl);}
 
 function drugiplayer(){
@@ -338,72 +338,72 @@ function reload1(){
 	});}
 
 function watchTs(tsname, ch){
-	jq("#buttons3").hide();
+	jq('#buttons3').hide();
 	lastch=ch;
 	lasttsurl='https://'+cdntag+'.bhtelecom.ba/rec/'+tsname+'.mp4';
-	jq("#epgdiv").hide();
-	jq("#vidcont").show();
+	jq('#epgdiv').hide();
+	jq('#vidcont').show();
 	dq('#kanalIMG2').src='https://webtv.bhtelecom.ba/hq_logo/'+ch+'.png';
-	jq("#buttons2").show();
+	jq('#buttons2').show();
 	playts(lasttsurl);}
 
 function returnChepg(){state="#"+lastch;window.location=state;
-	jq("#buttons1").hide();
-	jq("#buttons2").hide();
-	jq("#radiocont").hide();
-	jq("#buttons3").show();
+	jq('#buttons1').hide();
+	jq('#buttons2').hide();
+	jq('#radiocont').hide();
+	jq('#buttons3').show();
 	clearhls();
 	video.pause();
 	jq(video).removeAttr("src");
 	video.innerHTML='';
-	jq("#vidcont").hide();
+	jq('#vidcont').hide();
 	hlsParse(lastch);
 	getEpg(lastch,timeshift[lastch]);}
 
 function zaptoradio(ch) {
-jq("#searchcatdiv").hide();
+jq('#searchcatdiv').hide();
 lastch=currCH.ch=ch;
 lasthlsurl=currCH.auto=currCH.hq=currCH.sq='https://'+cdntag+'.bhtelecom.ba/'+ch+'.m3u8';
-jq("#chlistcontainer").hide();
+jq('#chlistcontainer').hide();
 islistshown=false;
-//jq("#videoplayer").on("pause",radioonpause);jq("#videoplayer").on("playing",radioonplaying);
-jq("#radiocont").show();
+//jq('#videoplayer').on("pause",radioonpause);jq('#videoplayer').on("playing",radioonplaying);
+jq('#radiocont').show();
 dq('#radioimg').src='https://webtv.bhtelecom.ba/hq_logo/'+ch+'.png';
 dq('#kanalIMG4').src='https://webtv.bhtelecom.ba/hq_logo/'+ch+'.png';
-jq("#buttons4").show();
+jq('#buttons4').show();
 playhls(lasthlsurl);if(location.hash.slice(0,3)==="#w_"){state="#"+ch;window.location=state;}}
 
 function backradio() {
-jq("#buttons4").hide();
-jq("#radiocont").hide();
+jq('#buttons4').hide();
+jq('#radiocont').hide();
 clearhls();
 video.pause();
 jq(video).removeAttr("src");
 video.innerHTML='';
 window.history.pushState({},document.title,"/webtv");
-jq("#searchcatdiv").show();
-//jq("#videoplayer").off("playing");jq("#videoplayer").off("pause");
+jq('#searchcatdiv').show();
+//jq('#videoplayer').off("playing");jq('#videoplayer').off("pause");
 islistshown=true;
 updatethumbs();
-jq("#chlistcontainer").show();
+jq('#chlistcontainer').show();
 updateradiowidth();}
 
 
-/*function paddingCh(){if(window.innerWidth > window.innerHeight){jq(".jbuttons").addClass("padding123");} else {jq(".jbuttons").removeClass("padding123");}}*/
+/*function paddingCh(){if(window.innerWidth > window.innerHeight){jq('.jbuttons').addClass("padding123");} else {jq('.jbuttons').removeClass("padding123");}}*/
 jq(window).resize(function(){updateradiowidth();/*paddingCh();*/});
 
-function search(){var searchquery;arguments.length>=1&&arguments[0].toLowerCase?(searchquery=arguments[0].toLowerCase(),dq("#search").value=searchquery):(searchquery=dq("#search").value.toLowerCase());
-var child=dqa(".chtables");
+function search(){var searchquery;arguments.length>=1&&arguments[0].toLowerCase?(searchquery=arguments[0].toLowerCase(),dq('#chsearch').value=searchquery):(searchquery=dq('#chsearch').value.toLowerCase());
+var child=dqa('.chtables');
 if (lasttype === 0){for(var i=0,j=child.length;i<j;i++) {
 if (titleArray[i].indexOf(searchquery) === -1){child[i].style.display="none";} else {child[i].style.display="";}}
 } else {for(var i=0,j=child.length;i<j;i++){if(typeArray[i] !== lasttype || titleArray[i].indexOf(searchquery) === -1){
 child[i].style.display="none";} else {child[i].style.display="";}}}updateradiowidth();}
 
-function filtercat(catid){jq(".spancat.w3-green.w3-hover-green").removeClass("w3-green w3-hover-green");
-jq(".spancat:eq("+catid+")").addClass("w3-green w3-hover-green");lasttype=Number(catid);search();}
+function filtercat(catid){jq('.spancat.w3-green.w3-hover-green').removeClass('w3-green w3-hover-green');
+jq('.spancat').eq(catid).addClass('w3-green w3-hover-green');lasttype=Number(catid);search();}
 
-dq("#search").value="";
-jq(window).on("click",function(e){e.target.className.indexOf("selectcat")===-1&&islistshown&&jq("#chfiltercontent").removeClass("w3-show");});
+dq('#chsearch').value="";
+jq(window).on("click",function(e){e.target.className.indexOf("selectcat")===-1&&islistshown&&jq('#chfiltercontent').removeClass("w3-show");});
 (function DOMloaded(){/*paddingCh();*/loadch();})();
 console.log("JavaScript took: "+(+new Date()-jstimerstart)+" ms");</script>
 </body>
