@@ -273,7 +273,7 @@ epgparse(result2, ch, timeshift);})
 function zap(ch){clearVideo();hlsParse(ch);getEpg(ch, timeshift[ch]);}
 
 function playhls(url){
-clearVideo();lasthlsurl=url;if (!isSafari) {
+clearVideo();lasthlsurl=url;if(!isSafari) {
 if (Hls.isSupported()){
 	hls=new Hls();
 	hls.loadSource(url);
@@ -285,13 +285,11 @@ if (Hls.isSupported()){
 		video.play();
 	});}
 } else {
-jq(video).removeAttr("src");
 video.innerHTML='<source src="'+url+'" type="video/mp4" />';video.load();video.play();}}
 
 function playts(url){
 	clearVideo();
 	lasttsurl=url;
-	jq(video).removeAttr("src");
 	video.innerHTML='<source src="'+url+'" type="video/mp4" />';
 	video.load();
 	video.play();}
@@ -318,7 +316,6 @@ function watchCh(ch, quality){if(!quality)quality='auto';
 
 function drugiplayer(){
 	clearVideo();
-	//jq(video).removeAttr("src");
 	video.innerHTML='<source src="'+lasthlsurl+'" type="video/mp4" />';
 	video.load();video.play();}
 
@@ -350,7 +347,6 @@ function returnChepg(){state="#"+lastch;window.location=state;
 	jq('#radiocont').hide();
 	jq('#buttons3').show();
 	clearVideo();
-	//jq(video).removeAttr("src");
 	jq('#vidcont').hide();
 	hlsParse(lastch);
 	getEpg(lastch,timeshift[lastch]);}
@@ -372,7 +368,6 @@ function backradio() {
 jq('#buttons4').hide();
 jq('#radiocont').hide();
 clearVideo();
-//jq(video).removeAttr("src");
 window.history.pushState({},document.title,"/webtv");
 jq('#searchcatdiv').show();
 //jq('#videoplayer').off("playing");jq('#videoplayer').off("pause");
