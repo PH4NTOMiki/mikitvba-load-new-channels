@@ -178,11 +178,11 @@ if(20===data.latestversion){console.log("ver20");hide(document.body);clearVideo(
 }).catch(function(err){console.log('later checkver failed: ',err)});}
 var doauthInterval=setInterval(function(){doauth();}, 600000),checkverInterval=setInterval(checkver,100000);
 function clearVideo(){if(hls){hls.detachMedia();hls.destroy();hls=null;}video.pause();video.removeAttribute('src');video.innerHTML='';video.load();}
-dq('#chlistcontainer').innerHTML='<div id="loading"><img id="loading-image" src="/loading.gif" alt="Loading..." /></div>';	
+dq('#chlistcontainer').innerHTML='<div id="loading"><img id="loading-image" src="loading.gif" alt="Loading..." /></div>';	
 var hlsNativeSupport='string'===typeof(navigator.vendor)&&'Apple Computer, Inc.'===navigator.vendor,/*video.canPlayType && !!video.canPlayType('application/vnd.apple.mpegURL'),*/
 chList=['<div class="chlistdiv" id="chlistdiv">'],hls,lasthlsurl="",lasttsurl="",lastch="",lasttype=0,tstamp=+new Date();
 for(var i=0,chLen=channels.length;i<chLen;i++){var tempvalue=channels[i],currhref='<a href="#'+tempvalue+'" title="'+title[tempvalue]+'">';
-chList.push('<table id="chtable'+i+'" class="demotb w3-mobile tableinline chtables"><tbody><tr><td>'+currhref+' <div id="divimg'+i+'" class="imgdiv'+(type[tempvalue]==3?' radimgdiv':'')+'"><img id="img'+i+'" class="chthumbs" src="/transparent1280x720.png"'+(type[tempvalue]!=3?' style="width: 100%;"></div></a>':'></div></a>')+'</td></tr><tr><td>'+currhref+'<img src="https://webtv.bhtelecom.ba/logos_white/'+tempvalue+'.png" title="'+title[tempvalue]+'" style="float:left; height: 50px;"></a><div class="text-div">&nbsp;&nbsp;&nbsp;'+currhref+title[tempvalue]+'</a></div></td></tr></tbody></table>');}
+chList.push('<table id="chtable'+i+'" class="demotb w3-mobile tableinline chtables"><tbody><tr><td>'+currhref+' <div id="divimg'+i+'" class="imgdiv'+(type[tempvalue]==3?' radimgdiv':'')+'"><img id="img'+i+'" class="chthumbs" src="transparent1280x720.png"'+(type[tempvalue]!=3?' style="width: 100%;"></div></a>':'></div></a>')+'</td></tr><tr><td>'+currhref+'<img src="https://webtv.bhtelecom.ba/logos_white/'+tempvalue+'.png" title="'+title[tempvalue]+'" style="float:left; height: 50px;"></a><div class="text-div">&nbsp;&nbsp;&nbsp;'+currhref+title[tempvalue]+'</a></div></td></tr></tbody></table>');}
 chList.push('</div>');dq('#chlistcontainer').innerHTML=chList.join("");
 dq('#chlistdiv').addEventListener('click',chClick);
 
@@ -267,7 +267,7 @@ function getEpg(ch, timeshift){
 	hide('#searchcatdiv');
 	hide('#chlistcontainer');
 	show('#buttons3');
-	dq('#epgdiv').innerHTML='<div id="loading"><img id="loading-image" src="/loading.gif" alt="Loading..." /></div>';
+	dq('#epgdiv').innerHTML='<div id="loading"><img id="loading-image" src="loading.gif" alt="Loading..." /></div>';
 	show('#epgdiv');/*var jurl='/tproxy?url=https%3A%2F%2Fwebtv.bhtelecom.ba%2Fepg%2F'+ch;*/
 	var jurl='https://webtv.bhtelecom.ba/epg/'+ch;/*if("bhtpremier"===ch){epgparse(null, ch, timeshift);return "bhtpremier===ch";}*/
 	console.log("fetching EPG from: "+jurl);
