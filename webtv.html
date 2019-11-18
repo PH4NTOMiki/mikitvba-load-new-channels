@@ -388,13 +388,11 @@ updateradiowidth();}
 window.addEventListener('resize',function(){updateradiowidth();/*paddingCh();*/});
 
 function search(query){dq('#chsearch').value=query=String('undefined'!==typeof(query)?query:dq('#chsearch').value).toLowerCase();
-var child=dqa('.chtables');
-if(!lasttype){for(var i=0,j=child.length;i<j;i++){
-if(!includes(titleArray[i],query)){hide(child[i]);} else {show(child[i]);}}
-} else {for(var i=0,j=child.length;i<j;i++){if(typeArray[i] !== lasttype || !includes(titleArray[i],query)){
-hide(child[i]);} else {show(child[i]);}}}updateradiowidth();}
+for(var elems=dqa('.chtables'),i=0,j=elems.length;i<j;i++){
+(!lasttype||lasttype==typeArray[i]) && includes(titleArray[i],query)?show(elems[i]):hide(elems[i])}
+updateradiowidth();}
 
-function filtercat(catid){removeClass(dq('.spancat.w3-green.w3-hover-green'),'w3-green w3-hover-green');
+function filtercat(catid){removeClass('.spancat.w3-green','w3-green w3-hover-green');
 addClass(dqa('.spancat')[catid],'w3-green w3-hover-green');lasttype=Number(catid);search();}
 
 dq('#chsearch').value="";
