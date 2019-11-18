@@ -203,7 +203,7 @@ for(var i=0,len=thbarr.length;i<len;i++){thbarr[i].querySelector('.chthumbs').sr
 console.log("updatethumbs() called, !islistshown");}}}
 function updateradiowidth(){var el=dq('#chtable0');
 if (el&&islistshown){var divwidth=getComputedStyle(el).width;
-	if(includes(divwidth,'%')){show(el);divwidth=getComputedStyle(el).width;hide(el);}
+	if('px'!=divwidth.slice(-2)){show(el);divwidth=getComputedStyle(el).width;hide(el);}
     console.log("updateradiowidth() called, radio images width updated");
 	dq('#mystyle').innerHTML='.radimgdiv{width:'+divwidth+';height:'+divwidth.slice(0,-2)/1.777825+'px;}';
 } else if(!dq('#chtable0')){
@@ -212,7 +212,7 @@ if (el&&islistshown){var divwidth=getComputedStyle(el).width;
 }
 updateradiowidth();var updatethumbsint=setInterval(updatethumbs,120000);
 
-function jumptoepg(){/*window.scrollTo(0, 0);window.location='#nowepg';*/window.scrollTo(0,0);scroller.to(dq('#nowepg'));}
+function jumptoepg(){/*window.location='#nowepg';*/window.scrollTo(0,0);scroller.to(dq('#nowepg'));}
 function watchInstant(ch,hq){
 	if(hq==undefined)hq=1;
 	lastch=ch;state='#w_'+ch;window.location=state;
@@ -384,16 +384,14 @@ islistshown=true;
 updatethumbs();
 show('#chlistcontainer');
 updateradiowidth();}
-
-
 /*function paddingCh(){if(window.innerWidth > window.innerHeight){addClass(dq('.jbuttons'),"padding123");} else {removeClass(dq('.jbuttons'),"padding123");}}*/
 window.addEventListener('resize',function(){updateradiowidth();/*paddingCh();*/});
 
-function search(){var searchquery;arguments.length>=1&&arguments[0].toLowerCase?(searchquery=arguments[0].toLowerCase(),dq('#chsearch').value=searchquery):(searchquery=dq('#chsearch').value.toLowerCase());
+function search(query){dq('#chsearch').value=query=String('undefined'!==typeof(query)?query:dq('#chsearch').value).toLowerCase();
 var child=dqa('.chtables');
-if (lasttype === 0){for(var i=0,j=child.length;i<j;i++) {
-if (!includes(titleArray[i],searchquery)){hide(child[i]);} else {show(child[i]);}}
-} else {for(var i=0,j=child.length;i<j;i++){if(typeArray[i] !== lasttype || !includes(titleArray[i],searchquery)){
+if(!lasttype){for(var i=0,j=child.length;i<j;i++){
+if(!includes(titleArray[i],query)){hide(child[i]);} else {show(child[i]);}}
+} else {for(var i=0,j=child.length;i<j;i++){if(typeArray[i] !== lasttype || !includes(titleArray[i],query)){
 hide(child[i]);} else {show(child[i]);}}}updateradiowidth();}
 
 function filtercat(catid){removeClass(dq('.spancat.w3-green.w3-hover-green'),'w3-green w3-hover-green');
