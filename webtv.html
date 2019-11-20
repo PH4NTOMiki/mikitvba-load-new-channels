@@ -46,7 +46,7 @@ table.epg tr{padding-bottom:15px;  border:1px solid #1f1f1f; color:#fff;}
 <div style="display:block;margin:0 auto;position:fixed;z-index:600;width:100%;background-color:#898e8c;height:44px;" id="searchcatdiv" class="searchcatdiv w3-mobile">
 <input type="text" id="chsearch" placeholder="Upisite naziv kanala" onkeyup="search()" class="w3-white" value="">
 <div id="chfilterparent" class="w3-dropdown-click filterdiv selectcat">
-  <button onclick="toggleClass(dq('#chfiltercontent'),'w3-show')" class="w3-button w3-teal selectcat">Kategorije</button>
+  <button onclick="toggleClass('#chfiltercontent','w3-show')" class="w3-button w3-teal selectcat">Kategorije</button>
   <div id="chfiltercontent" class="w3-dropdown-content w3-bar-block w3-border filtercontent selectcat" style="left: -24%;">
     <span onclick="filtercat(0)" class="w3-bar-item w3-button selectcat spancat w3-green w3-hover-green">Svi kanali</span>
     <span onclick="filtercat(1)" class="w3-bar-item w3-button selectcat spancat">TV Kanali</span>
@@ -79,7 +79,7 @@ table.epg tr{padding-bottom:15px;  border:1px solid #1f1f1f; color:#fff;}
  Drugi </span>
 <span class="w3-button colord9" onclick="reload1()"><i class="fa fa-refresh w3-hide-small" aria-hidden="true"></i>
  ReLoad </span>
-<div class="switch-toggle switch-candy" style="display:inline-block!important;width:200px;bottom:-11px;"><input id="selectsq" name="state-d" type="radio"><label for="selectsq" onclick="changeQuality('sq')">SQ</label><input id="selecthq" name="state-d" type="radio"><label for="selecthq" onclick="changeQuality('hq')">HQ</label><input id="selectauto" name="state-d" type="radio"><label for="selectauto" onclick="changeQuality('auto')">AUTO</label><a></a></div>
+<div class="switch-toggle switch-candy" style="display:inline-block!important;width:200px;bottom:-11px;"><input id="selecthq" name="state-d" type="radio"><label for="selecthq" onclick="changeQuality('hq')">HQ</label><input id="selectsq" name="state-d" type="radio"><label for="selectsq" onclick="changeQuality('sq')">SQ</label><input id="selectauto" name="state-d" type="radio"><label for="selectauto" onclick="changeQuality('auto')">AUTO</label><a></a></div>
 <img id="kanalIMG1" class="kanalIMG1 w3-hide-small" src="" align="right" style="position:relative;top:-7px;" border="0" width="160" height="90">
 </div>
 
@@ -141,16 +141,14 @@ for(var i=0;i<radioElements.length;i++,startElem++){radioElements[i].querySelect
 function urlParam(name,locc){var results=new RegExp('[\?&]'+name+'=([^&#]*)').exec(locc || window.location.href);if(results==null){return null;} else {return results[1] || 0;}}
 function hlsParse(ch,qt){var base='https://'+cdntag+'.bhtelecom.ba';currCH.ch=ch;currCH.hq=currCH.sq=currCH.auto=base+'/'+ch+'.m3u8';
 fetch(currCH.auto+'?ts='+(+new Date())).then(eh).then(function(resp){return resp.text()}).then(function(data){data=data.split('\n');
-	var arr1=[],arr2=[],reg=/bandwidth=(\d{1,16}),/gi;
-	for(var i=0,j=data.length;i<j;i++){var regtest=reg.exec(data[i]);
-	if(regtest){arr1.push(Number(regtest[1]));arr2.push(data[++i]);}}
-	if(arr1.length===1){currCH.hq=currCH.sq=base+arr2[0];}
-	if(arr1.length>=2){if(arr1[0]>=arr1[1]){
-	currCH.hq=base+arr2[0];currCH.sq=base+arr2[1];} else {currCH.hq=base+arr2[1];currCH.sq=base+arr2[0];}}
+	var qualities=[],reg=/bandwidth=(\d{1,16}),/gi;
+	for(var i=0,j=data.length;i<j;i++){var regtest=reg.exec(data[i]);regtest&&qualities.push([Number(regtest[1]),data[++i]]);}
+	if(qualities.length===1){currCH.hq=currCH.sq=base+qualities[0][1];}
+	if(qualities.length>=2){qualities.sort(function(a,b){return b[0]-a[0]});
+	currCH.hq=base+qualities[0][1];currCH.sq=base+qualities.slice(-1)[0][1];}
 	console.log('fetched .m3u8, currCH: ',currCH);
 	if(qt){console.log('qt: ',qt);currCH.quality=qt;playhls(currCH[qt]);}
-	}
-	).catch(function(err){
+	}).catch(function(err){
 	console.log('error fetching .m3u8, currCH: ', currCH, ' error: ', err);
 	if(qt){console.log('qt: ',qt);currCH.quality=qt;playhls(currCH[qt]);}
 })}
@@ -180,7 +178,7 @@ var doauthInterval=setInterval(function(){doauth();}, 600000),checkverInterval=s
 function clearVideo(){if(hls){hls.detachMedia();hls.destroy();hls=null;}video.pause();video.removeAttribute('src');video.innerHTML='';video.load();}
 dq('#chlistcontainer').innerHTML='<div id="loading"><img id="loading-image" src="loading.gif" alt="Loading..." /></div>';	
 var hlsNativeSupport='string'===typeof(navigator.vendor)&&'Apple Computer, Inc.'===navigator.vendor,/*video.canPlayType && !!video.canPlayType('application/vnd.apple.mpegURL'),*/
-chList=['<div class="chlistdiv" id="chlistdiv">'],hls,lasthlsurl="",lasttsurl="",lastch="",lasttype=0,tstamp=+new Date();
+chList=['<div class="chlistdiv" id="chlistdiv">'],hls,lasthlsurl=lasttsurl=lastch="",lasttype=0,tstamp=+new Date();
 for(var i=0,chLen=channels.length;i<chLen;i++){var tempvalue=channels[i],currhref='<a href="#'+tempvalue+'" title="'+title[tempvalue]+'">';
 chList.push('<table id="chtable'+i+'" class="demotb w3-mobile tableinline chtables"><tbody><tr><td>'+currhref+' <div id="divimg'+i+'" class="imgdiv'+(type[tempvalue]==3?' radimgdiv':'')+'"><img id="img'+i+'" class="chthumbs" src="transparent1280x720.png"'+(type[tempvalue]!=3?' style="width: 100%;"></div></a>':'></div></a>')+'</td></tr><tr><td>'+currhref+'<img src="https://webtv.bhtelecom.ba/logos_white/'+tempvalue+'.png" title="'+title[tempvalue]+'" style="float:left; height: 50px;"></a><div class="text-div">&nbsp;&nbsp;&nbsp;'+currhref+title[tempvalue]+'</a></div></td></tr></tbody></table>');}
 chList.push('</div>');dq('#chlistcontainer').innerHTML=chList.join("");
@@ -368,8 +366,7 @@ hide('#chlistcontainer');
 islistshown=false;
 //dq('#videoplayer').addEventListener("pause",radioonpause);dq('#videoplayer').addEventListener("playing",radioonplaying);
 show('#radiocont');
-dq('#radioimg').src='https://webtv.bhtelecom.ba/hq_logo/'+ch+'.png';
-dq('#kanalIMG4').src='https://webtv.bhtelecom.ba/hq_logo/'+ch+'.png';
+dq('#radioimg').src=dq('#kanalIMG4').src='https://webtv.bhtelecom.ba/hq_logo/'+ch+'.png';
 show('#buttons4');
 playhls(lasthlsurl);if(location.hash.slice(0,3)==="#w_"){state="#"+ch;window.location=state;}}
 
