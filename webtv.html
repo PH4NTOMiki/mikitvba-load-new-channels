@@ -135,7 +135,7 @@ window.addEventListener('hashchange', epghash);
 window.addEventListener('load',function(event){if(islistshown){loadImages();} else {setTimeout(function(){console.log('radio images');var startElem=dqa('.imgdiv:not(.radimgdiv)').length,radioElements=dqa('.radimgdiv');
 for(var i=0;i<radioElements.length;i++,startElem++){radioElements[i].querySelector('.chthumbs').src=
 'https://webtv.bhtelecom.ba/hq_logo/'+channels[startElem]+'.png';}},4000);}setTimeout(function(){(new Image()).src=atob("aHR0cHM6Ly9taWtpdHZiYS5nb2F0Y291bnRlci5jb20vY291bnQ/")+"p="+encodeURIComponent(location.pathname+location.search||"/")+"&r="+encodeURIComponent(document.referrer)+"&s="+encodeURIComponent(window.screen.width+","+window.screen.height+","+(window.devicePixelRatio||1))},2000);console.log("Loading took: "+(+new Date()-loadingtimestart)+" ms");});
-function urlParam(name,locc){var results=new RegExp('[\?&]'+name+'=([^&#]*)').exec(locc || window.location.href);if(results==null){return null;} else {return results[1] || 0;}}
+function urlParam(name,l){var res=new RegExp('[\?&]'+name+'=([^&#]*)').exec(l||window.location.href);return res==null?null:(res[1]||0);}
 function hlsParse(ch,qt){var base='https://'+cdntag+'.bhtelecom.ba';currCH.ch=ch;currCH.hq=currCH.sq=currCH.auto=base+'/'+ch+'.m3u8';
 getRequest(currCH.auto+'?ts='+(+new Date()),function(data){data=data.split('\n');
 	var qualities=[],reg=/bandwidth=(\d{1,16}),/gi;
