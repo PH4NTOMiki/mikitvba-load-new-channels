@@ -186,7 +186,7 @@ console.log("updatethumbs() called, !islistshown");}}}
 function updateradiowidth(){var el=dq('#chtable0');
 if (el&&islistshown){var divwidth=getComputedStyle(el).width;
 	if('px'!=divwidth.slice(-2)){show(el);divwidth=getComputedStyle(el).width;hide(el);}
-	dq('#mystyle').innerHTML='.radimgdiv{width:'+(Math.floor(divwidth.slice(0,-2)*100)/100)+'px;height:'+(Math.floor((divwidth.slice(0,-2)/1.777825)*100)/100)+'px;}';
+	dq('#mystyle').innerHTML='.radimgdiv{width:'+((Math.floor(divwidth.slice(0,-2)*100)/100)-6)+'px;height:'+((Math.floor((divwidth.slice(0,-2)/1.777825)*100)/100)-3)+'px;}';
 	console.log("updateradiowidth() called, radio images width updated");
 } else if(!el){
         console.log("updateradiowidth() called, !dq(#chtable0)");
