@@ -1,9 +1,10 @@
-var request = require('request'),fs = require('fs'),channels=[],title={},timeshift={},type={};
+const request = require('request'), fs = require('fs'), channels = [], title = {}, timeshift = {}, type = {},
+apiUrl = Buffer.from('aHR0cHM6Ly93ZWJ0dnN0cmVhbS5iaHRlbGVjb20uYmEvY2xpZW50L2NoYW5uZWxz', 'base64').toString('binary');
 
-request.get('https://webtvstream.bhtelecom.ba/client/channels', (error, response, body) => {
+request.get(apiUrl, (error, response, body) => {
 	let feed=JSON.parse(body)["feed"],radioStart=feed.length;
 	console.log("Successfully loaded tv JSON, tv length and radioStart: ", radioStart);
-	request.get('https://webtvstream.bhtelecom.ba/client/channels_cat_11', (error, response, body) => {
+	request.get(apiUrl + '_cat_11', (error, response, body) => {
 		feed=feed.concat(JSON.parse(body)["feed"]);
 		console.log("Successfully loaded radio JSON, radio length: ",(feed.length-radioStart),", full length: ",feed.length);
 		for(let i=0,j=feed.length;i<j;i++){

@@ -1,6 +1,6 @@
 var request = require('request'),fs = require('fs'),lastModified,lastTime,firstTime=1,times=[];
 
-function requestIt(){request.head('https://webtvstream.bhtelecom.ba/client/thumbs/ftv.jpg?ts='+(+new Date()),gotIt);}
+function requestIt(){request.head(Buffer.from('aHR0cHM6Ly93ZWJ0dnN0cmVhbS5iaHRlbGVjb20uYmEvY2xpZW50L3RodW1icy8=', 'base64').toString('binary') + 'ftv.jpg?ts=' + Date.now(), gotIt);}
 function gotIt(error,response){
 	let thisModified=response.headers['last-modified'],currTime=+new Date();
 	if(firstTime){

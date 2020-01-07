@@ -1,7 +1,7 @@
 var request = require('request'),fs = require('fs'),lastBody="",lastTime=0,requestTime=0,cnt=-1,
 times=[120.112,120.184,120.039,119.986,125.197,115.202,120.137,120.363,117.878,120.409,120.336,120.323];
 
-function requestIt(){/*requestTime=Date.now();*/request.get('https://webtvstream.bhtelecom.ba/client/thumbs/ftv.jpg?ts='+requestTime,gotIt);}
+function requestIt(){/*requestTime=Date.now();*/request.get(Buffer.from('aHR0cHM6Ly93ZWJ0dnN0cmVhbS5iaHRlbGVjb20uYmEvY2xpZW50L3RodW1icy8=', 'base64').toString('binary') + 'ftv.jpg?ts=' + requestTime, gotIt);}
 function gotIt(error,response,body){
 	//console.log(body.length);//console.log(body===last);//console.log('------------------------');//lastBody=body;
 	requestTime=new Date().getTime();
