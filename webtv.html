@@ -122,7 +122,7 @@ function epghash(){var temphash=location.hash.toLowerCase();if(!includes([state,
 }
 
 function loadImages(q){console.log('loadImages() called');var thbarr=dqa('.imgdiv:not(.radimgdiv) .chthumbs'),len=thbarr.length;
-if(!q){var d=new Date();d.setSeconds(0);d.setMilliseconds(0);if(d.getMinutes()%2>0)d.setMinutes(d.getMinutes()-1);d=d.getTime();timeWhenThumbsUpdated=+new Date();for(var i=0;i<len;i++){
+if(!q){var d=new Date();d.setSeconds(0,0);if(d.getMinutes()%2>0)d.setMinutes(-1);d=d.getTime();timeWhenThumbsUpdated=+new Date();for(var i=0;i<len;i++){
 thbarr[i].src=thumbsResizeApi+'/thumbs/'+channels[i]+'.jpg?ts='+d;}}var tmparr=dqa('.radimgdiv');
 for(var i=0,leng=tmparr.length;i<leng;i++,len++){tmparr[i].querySelector('.chthumbs').src=filesCDN+'hq_logo/'+channels[len]+'.png';}}
 function onOnlineFunc(){doauth();if(video.src||video.innerHTML){hlsjsplayer?reload1():drugiplayer();}clearInterval(doauthInterval);doauthInterval=setInterval(function(){doauth();}, 600000);}
@@ -171,7 +171,7 @@ var timeLeft=(timeWhenThumbsUpdated+120000)-(+new Date());if(timeLeft<1){console
 updatethumbsint=setInterval(updatethumbs,120000);} else {console.log('!timeLeft<1 , timeLeft: ',timeLeft,'setTimeout');visibilityTimeout=setTimeout(function(){updatethumbs();
 updatethumbsint=setInterval(updatethumbs,120000);},timeLeft);}}}
 if(typeof document.addEventListener!=="undefined" && typeof document[hidden]!=="undefined"){document.addEventListener(visibilityChange, handleVisibilityChange, false);}
-function updatethumbs(){console.log('updatethumbs() called, time since last thumbs update: ',(+new Date())-timeWhenThumbsUpdated);if(dq('#chtable0')&&islistshown&&!document[hidden]){var d=new Date();d.setSeconds(0);d.setMilliseconds(0);d=d.getTime();timeWhenThumbsUpdated=+new Date();
+function updatethumbs(){console.log('updatethumbs() called, time since last thumbs update: ',(+new Date())-timeWhenThumbsUpdated);if(dq('#chtable0')&&islistshown&&!document[hidden]){var d=new Date();d.setSeconds(0,0);d=d.getTime();timeWhenThumbsUpdated=+new Date();
 console.log("updatethumbs() called, thumbs were updated");var thbarr=dqa('.imgdiv:not(.radimgdiv) .chthumbs');
 for(var i=0,len=thbarr.length;i<len;i++){thbarr[i].src=
 thumbsResizeApi+'/thumbs/'+channels[i]+'.jpg?ts='+d;}
