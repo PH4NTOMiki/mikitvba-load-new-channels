@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><script>var loadedhash=location.hash,loadingtimestart=+new Date(),currversion=142,urlHref='',vercheck=false,attempted=false;</script><link rel="shortcut icon" href="favicon.ico">
+<html><head><meta charset="UTF-8"><script>var loadedhash=location.hash,loadingtimestart=+new Date(),currversion=144,urlHref='',vercheck=false,attempted=false;</script><link rel="shortcut icon" href="favicon.ico">
 <style>.padding123,.jbuttons{padding-top:16px!important;padding-left:10.5%!important;padding-right:10.5%!important}
 .hqbtn{padding-top:2px!important;padding-left:8px!important;padding-right:7px!important;padding-bottom:2px!important}
 .playbtn{padding-top:0px!important;padding-left:8px!important;padding-right:6px!important;padding-bottom:1px!important}
@@ -154,7 +154,7 @@ function checkver(){getRequest(uri+'?recheck=1&ts='+(+new Date()),1,function(dat
 if(20===data.latestversion){console.log("ver20");hide(document.body);clearVideo();for(var i=0,j=setInterval(function(){},999999);i<=j;i++){clearInterval(i);}for(var i=0,j=setTimeout(function(){},999999);i<=j;i++){clearTimeout(i);}alert('Servis privremeno nije u funkciji!');}
 },function(err){console.log('later checkver failed: ',err)});}
 var doauthInterval=setInterval(function(){doauth();}, 600000),checkverInterval=setInterval(checkver,100000);
-function clearVideo(){if(hls){hls.detachMedia();hls.destroy();hls=null;}video.pause();video.removeAttribute('src');video.innerHTML='';video.load();}
+function clearVideo(stayPiP){if(!stayPiP&&document.pictureInPictureElement&&video===document.pictureInPictureElement){document.exitPictureInPicture();}if(hls){hls.detachMedia();hls.destroy();hls=null;}video.pause();video.removeAttribute('src');video.innerHTML='';video.load();}
 dq('#chlistcontainer').innerHTML='<div id="loading"><div class="icon-spinner w3-spin" alt="Loading..."></div></div>';	
 var hlsNativeSupport='string'==typeof(navigator.vendor)&&'Apple Computer, Inc.'===navigator.vendor,/*video.canPlayType && !!video.canPlayType('application/vnd.apple.mpegURL'),*/
 chList=['<div class="chlistdiv" id="chlistdiv">'],hls,lasthlsurl=lasttsurl=lastch="",lasttype=0,tstamp=+new Date();
@@ -246,7 +246,7 @@ function zapToCh(ch){clearVideo();hlsParse(ch);getEpg(ch, timeshift[ch]);}
 
 function changeQuality(quality){if(currCH.quality!=quality){currCH.quality=quality;lasthlsurl=currCH[quality];hlsjsplayer?reload1():drugiplayer();}}
 function playhls(url){
-clearVideo();lasthlsurl=url;dq('#select'+currCH.quality).checked=true;if(!hlsNativeSupport&&Hls.isSupported()){
+clearVideo(1);lasthlsurl=url;dq('#select'+currCH.quality).checked=true;if(!hlsNativeSupport&&Hls.isSupported()){
 	hlsjsplayer=true;
 	hls=new Hls();
 	hls.loadSource(url);
@@ -261,7 +261,7 @@ clearVideo();lasthlsurl=url;dq('#select'+currCH.quality).checked=true;if(!hlsNat
 video.innerHTML='<source src="'+url+'" type="video/mp4" />';video.load();video.play();}}
 
 function playts(url){
-	clearVideo();
+	clearVideo(1);
 	lasttsurl=url;
 	video.innerHTML='<source src="'+url+'" type="video/mp4" />';
 	video.load();
@@ -285,13 +285,13 @@ function watchCh(ch, quality){if(!quality)quality='auto';
 	playhls(lasthlsurl);}
 
 function drugiplayer(){
-	clearVideo();
+	clearVideo(1);
 	hlsjsplayer=false;
 	video.innerHTML='<source src="'+lasthlsurl+'" type="video/mp4" />';
 	video.load();video.play();}
 
 function reload1(){
-	clearVideo();
+	clearVideo(1);
 	hlsjsplayer=true;
 	hls=new Hls();
 	hls.loadSource(lasthlsurl);
