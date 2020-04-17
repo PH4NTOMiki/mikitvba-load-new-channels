@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><script>var currversion=166,loadedParams=location.search,loadedhash=location.hash,loadingtimestart=Date.now(),cdntag='webtvstream',urlHref='',vercheck=false,attempted=false;</script><link rel="shortcut icon" href="favicon.ico">
-<style>.padding123,.jbuttons{padding-top:16px!important;padding-left:10.5%!important;padding-right:10.5%!important}
+<html><head><meta charset="UTF-8"><script>var currversion=170,loadedParams=location.search,loadedhash=location.hash,loadingtimestart=Date.now(),cdntag='webtvstream',urlHref='',vercheck=false,attempted=false;</script><link rel="shortcut icon" href="favicon.ico">
+<style>.center{text-align:center;}.padding123,.jbuttons{padding-top:16px!important;padding-left:10.5%!important;padding-right:10.5%!important}
 .hqbtn{padding-top:2px!important;padding-left:8px!important;padding-right:7px!important;padding-bottom:2px!important}
 .playbtn{padding-top:0px!important;padding-left:8px!important;padding-right:6px!important;padding-bottom:1px!important}
 #chsearch{display:inline-block;position:relative;top:3px;left:10px;height:38px;border:none;padding:8px;/*border-bottom:1px solid #ccc;border-right:1px solid #ccc;*/}#chfilterparent{display:inline-block;top:1px;left:19px;}
@@ -53,16 +53,16 @@ table.epg tr{padding-bottom:15px;border:1px solid #1f1f1f;color:#fff;}
 <span class="w3-button w3-gray returnRemote" style="position:relative;top:25px;"><i class="icon-arrow-circle-left returnRemote" aria-hidden="true"></i> Nazad </span>
 <img id="kanalIMG3" class="kanalIMG3" src="" align="right" border="0" width="160" height="90">
 </div>
-<div id="vidcont" data-hidden=""><center><video class="w3-mobile" id="videoplayer" width="79%" controls></video><br/></center></div>
+<div id="vidcont" class="center" data-hidden=""><video class="w3-mobile" id="videoplayer" width="79%" controls></video><br/></div>
 <div id="chlistcontainer" style="text-align: left;"></div>
 <div id="epgdiv" data-hidden="" style="text-align: left;">
 </div>	
 
 <div id="radiocont" data-hidden="">
-<div style="display: block; margin: 0 auto;"><img id="radioimg" src="" style="display: block; text-align: center; margin: 0 auto;" height="130px" width="230px"></div><div style="display: block; margin: 0 auto;"><center>
+<div style="display: block; margin: 0 auto;"><img id="radioimg" src="" style="display: block; text-align: center; margin: 0 auto;" height="130px" width="230px"></div><div style="display: block; margin: 0 auto;"><div class="center">
 <span id="play-pause" class="w3-button colord9 play-pause"><i class="icon-pause w3-hide-small play-pause" aria-hidden="true"></i> Pause</span>
 <span class="w3-button colord9 mute" id="mute"><i class="icon-volume-up w3-hide-small mute" aria-hidden="true"></i> Mute</span>
-<input class="slider" id="volume-bar" min="0" max="100" step="1" value="100" type="range"></center></div>
+<input class="slider" id="volume-bar" min="0" max="100" step="1" value="100" type="range"></div></div>
 </div>
 
 <div id="buttons1" class="containerlarge smallcenter jbuttons" data-hidden="" style="padding-top:9px!important;">
@@ -129,7 +129,7 @@ for(var i=0,leng=tmparr.length;i<leng;i++,len++){tmparr[i].querySelector('.chthu
 function onOnlineFunc(){doauth();if(video.src||video.innerHTML){hlsjsplayer?reload1():drugiplayer();}clearInterval(doauthInterval);doauthInterval=setInterval(function(){doauth();}, 600000);}
 if('ononline' in document.body){document.body.ononline=function(){onOnlineFunc();}} else {networkOnlineInterval=setInterval(function(){if(!networkOnlineState&&navigator.onLine){onOnlineFunc();}networkOnlineState=navigator.onLine;},4000);}
 window.addEventListener('hashchange', epghash);
-window.addEventListener('load',function(event){if(islistshown){loadImages();} else {setTimeout(function(){console.log('radio images');loadImages(1);})}setTimeout(function(){(new Image()).src=atob("aHR0cHM6Ly9taWtpdHZiYS5nb2F0Y291bnRlci5jb20vY291bnQ/")+"p="+encodeURIComponent(location.pathname+location.search||"/")+"&r="+encodeURIComponent(document.referrer)+"&s="+encodeURIComponent(window.screen.width+","+window.screen.height+","+(window.devicePixelRatio||1))},2000);console.log("Loading took: "+(Date.now()-loadingtimestart)+" ms");});
+window.addEventListener('load',function(event){if(islistshown){loadImages();} else {setTimeout(function(){console.log('radio images');loadImages(1);})}if(!/(localhost$|^127\.|^10\.|^172\.(1[6-9]|2[0-9]|3[0-1])\.|^192\.168\.)/.test(location.hostname)){setTimeout(function(){(new Image()).src=atob("aHR0cHM6Ly9taWtpdHZiYS5nb2F0Y291bnRlci5jb20vY291bnQ/")+"p="+encodeURIComponent(location.pathname+location.search||"/")+"&t="+encodeURIComponent(document.title||"/")+"&r="+encodeURIComponent(document.referrer)+"&s="+encodeURIComponent(window.screen.width+","+window.screen.height+","+(window.devicePixelRatio||1))},2000);}console.log("Loading took: "+(Date.now()-loadingtimestart)+" ms");});
 function urlParam(name,l){var res=new RegExp('[\?&]'+name+'=([^&#]*)').exec(l||window.location.href);return res==null?null:(res[1]||0);}
 function hlsParse(ch,qt){var base='https://'+cdntag+atob('LmJodGVsZWNvbS5iYQ==');currCH.ch=ch;currCH.hq=currCH.sq=currCH.auto=base+'/'+ch+'.m3u8';
 getRequest(currCH.auto+'?ts='+Date.now(),function(data){data=data.split('\n');
