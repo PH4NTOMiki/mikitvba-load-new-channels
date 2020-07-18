@@ -15,10 +15,11 @@ doIt();
 
 
 function doIt(){if(i>=arr.length)return;
-	request.get(arr[i], {encoding: 'binary'}, (error, response, body)=>{
-		const relPath=arr[i].split('/').slice(-2);
-		fs.writeFileSync(path.join(__dirname, relPath[0], relPath[1]), body, 'binary');
-		i++;
-		doIt();
-	});
+	const relPath = arr[i].split('/').slice(-2), fullPath = path.join(__dirname, relPath[0], relPath[1]);
+	//console.log(fullPath, fs.existsSync(fullPath));
+	if(fs.existsSync(fullPath)){i++;doIt();} else {
+		request.get(arr[i], {encoding: 'binary'}, (error, response, body)=>{
+			fs.writeFileSync(fullPath, body, 'binary');
+			i++;doIt();
+		});}
 }
