@@ -127,6 +127,7 @@ function loadch(){
 }
 function epghash(){var temphash=location.hash.toLowerCase();if(!includes([state,'#nowepg','#'],temphash)){
 	if(temphash===''){
+		state = '';
 		hide('#buttons1','#buttons2','#buttons3','#epgdiv','#radiocont','#vidcont');
 		clearVideo();
 		islistshown=true;
