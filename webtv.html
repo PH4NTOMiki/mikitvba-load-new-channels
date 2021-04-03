@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><script>var currversion=194,loadedParams=location.search,loadedhash=location.hash,loadingtimestart=Date.now(),cdntag='webtvstream',urlHref='',vercheck=false,attempted=false;</script><link rel="shortcut icon" href="favicon.ico"><link rel="manifest" href="manifest.json">
+<html><head><meta charset="UTF-8"><script>var currversion=196,loadedParams=location.search,loadedhash=location.hash,loadingtimestart=Date.now(),cdntag='webtvstream',urlHref='',vercheck=false,attempted=false;</script><link rel="shortcut icon" href="favicon.ico"><link rel="manifest" href="manifest.json">
 <title>MikiWebTV</title>
 <link rel="preload" href="fonts/rubik-v9-latin-ext_latin-900.woff2" as="font">
 <meta name="theme-color" id="themec" content="#898e8c"><!--#a8631e-->
@@ -215,6 +215,7 @@ var updatethumbsint=setInterval(updatethumbs,120000);
 
 function jumptoepg(){window.scrollTo(0,0);scroller.to(dq('#nowepg'));}
 function watchInstant(ch,hq){
+	doauth();
 	if(hq==undefined)hq=1;
 	lastch=ch;state='#w_'+ch;window.location=state;
 	islistshown=false;
@@ -267,7 +268,18 @@ function getEpg(ch, timeshift){
 	function(err){console.log("error fetching EPG, error: ", err);epgparse(null, ch, timeshift);})
 }
 function playAppropriatePlayer(){hlsjsplayer?reload1():drugiplayer();}
-function zap(ch, instant){if(includes(channels,ch)){scrollPos=pageYOffset;if(type[ch]!=3){!instant?zapToCh(ch):watchInstant(ch);} else {zapToRadio(ch);}}}
+function zap(ch, instant){
+	if(instant && !isNaN(parseInt(ch.slice(-8))) && includes(channels,ch.slice(0, -8))){
+		watchTs(ch, ch.slice(0, -8));
+	} else if(includes(channels,ch)){
+		scrollPos=pageYOffset;
+		if(type[ch]!=3){
+			!instant?zapToCh(ch):watchInstant(ch);
+		} else {
+			zapToRadio(ch);
+		}
+	}
+}
 function zapToCh(ch){clearVideo();hlsParse(ch);state='#'+ch;window.location=state;getEpg(ch, timeshift[ch]);}
 
 function changeQuality(quality){if(currCH.quality!=quality){currCH.quality=quality;lasthlsurl=currCH[quality];playAppropriatePlayer();}}
@@ -355,9 +367,11 @@ function reload1(){
 }
 
 function watchTs(tsname, ch){
-	lastch=ch;
+	doauth();
+	lastch=ch;state='#w_'+tsname;window.location=state;
 	lasttsurl='https://'+cdntag+atob('LmJodGVsZWNvbS5iYQ==')+'/rec/'+tsname+'.mp4';
-	hide('#buttons3','#epgdiv');
+	hide('#searchcatdiv','#chlistcontainer','#buttons3','#epgdiv');
+	dq('#kanalIMG1').src=dq('#kanalIMG2').src=dq('#kanalIMG3').src=filesCDN+'hq_logo/'+ch+(isWebpSupported?'.webp':'.png');
 	show('#vidcont','#buttons2');
 	playts(lasttsurl);}
 
